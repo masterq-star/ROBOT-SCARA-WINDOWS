@@ -1,0 +1,17 @@
+C:\Users\quyzz\Desktop\robot_arm_control\robotarrm\robotarrm\bin\Release\robotarrm.exe.config
+C:\Users\quyzz\Desktop\robot_arm_control\robotarrm\robotarrm\bin\Release\robotarrm.exe
+C:\Users\quyzz\Desktop\robot_arm_control\robotarrm\robotarrm\bin\Release\robotarrm.pdb
+C:\Users\quyzz\Desktop\robot_arm_control\robotarrm\robotarrm\bin\Release\HZH_Controls.dll
+C:\Users\quyzz\Desktop\robot_arm_control\robotarrm\robotarrm\bin\Release\MACTrackBarLib.dll
+C:\Users\quyzz\Desktop\robot_arm_control\robotarrm\robotarrm\bin\Release\MetroFramework.Design.dll
+C:\Users\quyzz\Desktop\robot_arm_control\robotarrm\robotarrm\bin\Release\MetroFramework.dll
+C:\Users\quyzz\Desktop\robot_arm_control\robotarrm\robotarrm\bin\Release\MetroFramework.Fonts.dll
+C:\Users\quyzz\Desktop\robot_arm_control\robotarrm\robotarrm\obj\Release\robotarrm.csproj.AssemblyReference.cache
+C:\Users\quyzz\Desktop\robot_arm_control\robotarrm\robotarrm\obj\Release\robotarrm.csproj.SuggestedBindingRedirects.cache
+C:\Users\quyzz\Desktop\robot_arm_control\robotarrm\robotarrm\obj\Release\robotarrm.controrl_arm.resources
+C:\Users\quyzz\Desktop\robot_arm_control\robotarrm\robotarrm\obj\Release\robotarrm.Properties.Resources.resources
+C:\Users\quyzz\Desktop\robot_arm_control\robotarrm\robotarrm\obj\Release\robotarrm.csproj.GenerateResource.cache
+C:\Users\quyzz\Desktop\robot_arm_control\robotarrm\robotarrm\obj\Release\robotarrm.csproj.CoreCompileInputs.cache
+C:\Users\quyzz\Desktop\robot_arm_control\robotarrm\robotarrm\obj\Release\robotarrm.csproj.CopyComplete
+C:\Users\quyzz\Desktop\robot_arm_control\robotarrm\robotarrm\obj\Release\robotarrm.exe
+C:\Users\quyzz\Desktop\robot_arm_control\robotarrm\robotarrm\obj\Release\robotarrm.pdb

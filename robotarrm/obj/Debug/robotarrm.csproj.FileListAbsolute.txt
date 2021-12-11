@@ -1,0 +1,14 @@
+C:\Users\quyzz\Desktop\robot_arm_control\robotarrm\robotarrm\bin\Debug\robotarrm.exe.config
+C:\Users\quyzz\Desktop\robot_arm_control\robotarrm\robotarrm\bin\Debug\robotarrm.exe
+C:\Users\quyzz\Desktop\robot_arm_control\robotarrm\robotarrm\bin\Debug\robotarrm.pdb
+C:\Users\quyzz\Desktop\robot_arm_control\robotarrm\robotarrm\obj\Debug\robotarrm.csproj.SuggestedBindingRedirects.cache
+C:\Users\quyzz\Desktop\robot_arm_control\robotarrm\robotarrm\obj\Debug\robotarrm.Properties.Resources.resources
+C:\Users\quyzz\Desktop\robot_arm_control\robotarrm\robotarrm\obj\Debug\robotarrm.csproj.GenerateResource.cache
+C:\Users\quyzz\Desktop\robot_arm_control\robotarrm\robotarrm\obj\Debug\robotarrm.csproj.CoreCompileInputs.cache
+C:\Users\quyzz\Desktop\robot_arm_control\robotarrm\robotarrm\obj\Debug\robotarrm.csproj.CopyComplete
+C:\Users\quyzz\Desktop\robot_arm_control\robotarrm\robotarrm\obj\Debug\robotarrm.exe
+C:\Users\quyzz\Desktop\robot_arm_control\robotarrm\robotarrm\obj\Debug\robotarrm.pdb
+C:\Users\quyzz\Desktop\robot_arm_control\robotarrm\robotarrm\obj\Debug\robotarrm.controrl_arm.resources
+C:\Users\quyzz\Desktop\robot_arm_control\robotarrm\robotarrm\obj\Debug\robotarrm.csproj.AssemblyReference.cache
+C:\Users\quyzz\Desktop\robot_arm_control\robotarrm\robotarrm\bin\Debug\System.Diagnostics.DiagnosticSource.xml
+C:\Users\quyzz\Desktop\robot_arm_control\robotarrm\robotarrm\obj\Debug\robotarrm.csproj.Fody.CopyLocal.cache
