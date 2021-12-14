@@ -22,7 +22,7 @@ namespace robotarrm
         string path = "data.txt", READ_INPUT = "S000000Z";
         string point_path = "point.txt";
        // string point_path = "point.txt";
-        bool idle_signal = false, check_thread = false;
+        bool idle_signal = false, check_thread = false, check_thread_is_initialization = false;
         public controrl_arm()
         {
             InitializeComponent();
@@ -124,7 +124,7 @@ namespace robotarrm
         {
             if (newserial.IsOpen)
             {
-                newserial.Write("$HX\n$HY\n$HA\n$HZ\n");
+                newserial.Write("$HA\n$HZ\n$HX\n$HY\n");
             }
         }
 
@@ -141,7 +141,7 @@ namespace robotarrm
         {
             if (data_receive.Contains("S") && data_receive.Contains("Z") && data_receive.Length <= 15) READ_INPUT = data_receive.Substring(
                  data_receive.IndexOf("S"), 8);
-            status_lb_app.Text = READ_INPUT;
+            //status_lb_app.Text = READ_INPUT;
 
             if (data_receive.Contains("Idle")) idle_signal = true;
             // status_lb_app.Text = data_receive;
@@ -150,6 +150,10 @@ namespace robotarrm
 
         private void closed_event(object sender, FormClosedEventArgs e)
         {
+            byte[] Sevor_off = new byte[2] { 0xA7, 0xA8 };
+            byte[] code_close = new byte[2] { 0xB1, 0xB3 };
+            newserial.Write(Sevor_off, 0, 2);
+            newserial.Write(code_close, 0, 2);
             newserial.Close();
             rtb_code_rb.SaveFile(path, RichTextBoxStreamType.PlainText);
             setting_com.Default["name_port"] = cbb_name_port.Text;
@@ -206,7 +210,7 @@ namespace robotarrm
             try { speed = Int16.Parse(tb_speed.Text); }
             catch { speed = 0; }
 
-            if (speed > 12000 || speed < 100)
+            if (speed > 5000 || speed < 100)
             {
                 lb_notification.Text = "speed should be between 100-5000";
             }
@@ -233,7 +237,7 @@ namespace robotarrm
             ThreadStart new_thread_start = new ThreadStart(run_code);
             nthread = new Thread(new_thread_start);
             nthread.Start();
-            if (nthread.IsAlive) check_thread = true;
+            if (nthread.IsAlive) { check_thread = true; check_thread_is_initialization = true; }
 
         }
 
@@ -280,6 +284,16 @@ namespace robotarrm
                         }
                         else if (handle_string[i].Contains("MOUT"))
                         {
+                            Thread.Sleep(100);
+                            do
+                            {
+                                newserial.Write("?");
+                                status_lb_app.Text = "WAITING Move to P complete... ";
+                                if (!check_thread) nthread.Abort();
+                                Thread.Sleep(10);
+                            }
+                            while (!idle_signal);
+                            idle_signal = false;
                             byte[] code_output_on = new byte[16] { 0x90 , 0x92 , 0x94 , 0x96 , 0x98 , 0x9A , 0x9C , 0x9E ,
                                                                    0xA0 , 0xA2, 0xA4 , 0xA6 , 0xA8 , 0xAA , 0xAC , 0xAE};
                             byte[] code_output_off = new byte[16] { 0x91 , 0x93 , 0x95 , 0x97 , 0x99 , 0x9B , 0x9D , 0x9F ,
@@ -344,6 +358,18 @@ namespace robotarrm
 
 
                         }
+                        else if (handle_string[i].Contains("BEGIN"))
+                        {
+                            status_lb_app.Text = "CODE Begin";
+
+
+                        }
+                        else if (handle_string[i].Contains("END"))
+                        {
+                            status_lb_app.Text = "CODE End";
+
+
+                        }
                         else
                         { }
                     }
@@ -364,10 +390,21 @@ namespace robotarrm
 
         private void btn_stop_Click(object sender, EventArgs e)
         {
-            byte[] byte_led_stop = new byte[2] { 0xA1, 0xA2 };
-            if (newserial.IsOpen) newserial.Write(byte_led_stop, 0, 2);
-            if (check_thread) { nthread.Abort(); check_thread = false; }
-            else status_lb_app.Text = "Code have never run you should run code program before ";
+            if (check_thread_is_initialization)
+            {
+                check_thread = true;
+                byte[] byte_led_stop = new byte[2] { 0xA1, 0xA2 };
+                if (newserial.IsOpen) newserial.Write(byte_led_stop, 0, 2);
+                if (check_thread) { nthread.Abort(); check_thread = false; }
+                else status_lb_app.Text = "Code have never run you should run code program before ";
+            }
+            else status_lb_app.Text = " You haven't initialized the thread you should press run before";
+
+
+
+
+
+
 
 
         }
@@ -429,10 +466,10 @@ namespace robotarrm
         private void upload_data()
         {
             var data = new System.Text.StringBuilder();
-            data.Append(string.Format("G1 X-{0:f} ", (x_value.Value)/1000));
-            data.Append(string.Format("Y-{0:f} ", (y_value.Value) / 1000));
-            data.Append(string.Format("Z-{0:f} ", (z_value.Value) / 1000));
-            data.Append(string.Format("A-{0:f} ", (a_value.Value) / 1000));
+            data.Append(string.Format("G1 X-{0:0.000} ", (x_value.Value)/1000));
+            data.Append(string.Format("Y-{0:0.000} ", (y_value.Value) / 1000));
+            data.Append(string.Format("Z-{0:0.000} ", (z_value.Value) / 1000));
+            data.Append(string.Format("A-{0:0.000} ", (a_value.Value) / 1000));
             if (string.IsNullOrEmpty(tb_speed.Text))
             { data.Append("F500\n"); }
             else
@@ -500,32 +537,124 @@ namespace robotarrm
 
         private void x_enter(object sender, KeyEventArgs e)
         {
+            int step;
+            if (String.IsNullOrEmpty(tb_Step.Text)) step = 1;
+            else step = Int16.Parse(tb_Step.Text);
+            switch (e.KeyCode)
+            {
+                case Keys.Enter:
+                    enter_key(tb_x_value, 2000, 35000);
+                    break;
+                case Keys.Up:
 
-            check_value_textbox(e,tb_x_value,2000,35000);
+                    key_up_events(tb_x_value,2000,35000);
+                    break;
+                case Keys.Down:
+                    key_down_events(tb_x_value, 2000, 35000);
+                    break;
+                default:break;
+            }
+            
 
         }
 
-        
+       
 
         private void y_enter(object sender, KeyEventArgs e)
         {
-            check_value_textbox(e, tb_y_value, 2000, 35000);
+           
+            switch (e.KeyCode)
+            {
+                case Keys.Enter:
+                    enter_key(tb_y_value, 2000, 35000);
+                    break;
+                case Keys.Up:
+
+                    key_up_events(tb_y_value, 2000, 35000);
+                    break;
+                case Keys.Down:
+                    key_down_events(tb_y_value, 2000, 35000);
+                    break;
+                default: break;
+            }
+
 
         }
 
         private void z_enter(object sender, KeyEventArgs e)
         {
-            check_value_textbox(e, tb_z_value, 2000, 18000);
+            enter_key(tb_z_value, 2000, 19000);
+            switch (e.KeyCode)
+            {
+                case Keys.Enter:
+                    enter_key(tb_z_value, 2000, 19000);
+                    break;
+                case Keys.Up:
+                    key_up_events(tb_z_value, 2000, 19000);
+                    break;
+                case Keys.Down:
+                    key_down_events(tb_z_value, 2000, 19000);
+                    break;
+                default:break;
+            }
         }
 
         private void a_enter(object sender, KeyEventArgs e)
         {
-            check_value_textbox(e, tb_a_value, 2000, 18000);
-        }
-        private void check_value_textbox(KeyEventArgs e, TextBox textbox, int min, int max)
-        {
-            if (e.KeyCode == Keys.Enter)
+        
+            switch (e.KeyCode)
             {
+                case Keys.Enter:
+                    enter_key(tb_a_value, 2000, 18000);
+                    break;
+                case Keys.Up:
+                    key_up_events(tb_a_value, 2000, 18000);
+                    break;
+                case Keys.Down:
+                    key_down_events(tb_a_value, 2000, 18000);
+                    break;
+                default:break;
+            }
+        }
+        private void key_up_events(TextBox textBox, int min , int max)
+        {
+            int step;
+            if (String.IsNullOrEmpty(tb_Step.Text)) step = 1;
+            else step = Int16.Parse(tb_Step.Text);
+
+
+            if (Int32.Parse(textBox.Text) > (max-step))
+                status_lb_app.Text = "Your value is limit";
+            else
+            {
+                textBox.Text = (Int32.Parse(textBox.Text) + step).ToString();
+               // status_lb_app.Text = "Your value is ok.";
+                upload_data();
+                
+                
+            }
+            
+        }
+        private void key_down_events(TextBox textBox, int min, int max)
+        {
+            int step;
+            if (String.IsNullOrEmpty(tb_Step.Text)) step = 1;
+            else step = Int16.Parse(tb_Step.Text);
+
+
+            if (Int32.Parse(textBox.Text) < (min + step))
+                status_lb_app.Text = "Your value is limit";
+            else
+            {
+                textBox.Text = (Int32.Parse(textBox.Text) - step).ToString();
+                status_lb_app.Text = "Your value is ok.";
+                upload_data();
+
+            }
+        }
+        private void enter_key( TextBox textbox, int min, int max)
+        {
+           
                 int x = Int32.Parse(textbox.Text.ToString());
                 if (x > max || x < min)
                     status_lb_app.Text = "Your value is fault.";
@@ -542,7 +671,7 @@ namespace robotarrm
                         status_lb_app.Text = "Please open com port!";
                     }
                 }
-            }
+            
         }
         private void key_x_check(object sender, KeyPressEventArgs e)
         {
@@ -557,6 +686,7 @@ namespace robotarrm
             {
                 e.Handled = true;
             }
+
         }
 
         private void key_y_check(object sender, KeyPressEventArgs e)
@@ -588,6 +718,8 @@ namespace robotarrm
                 e.Handled = true;
             }
         }
+
+       
 
         private void key_a_check(object sender, KeyPressEventArgs e)
         {

@@ -43,6 +43,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.rtb_code_rb = new System.Windows.Forms.RichTextBox();
             this.tab_point = new MetroFramework.Controls.MetroTabPage();
+            this.label9 = new System.Windows.Forms.Label();
+            this.tb_Step = new System.Windows.Forms.TextBox();
             this.tb_a_value = new System.Windows.Forms.TextBox();
             this.tb_z_value = new System.Windows.Forms.TextBox();
             this.tb_y_value = new System.Windows.Forms.TextBox();
@@ -266,6 +268,8 @@
             // 
             // tab_point
             // 
+            this.tab_point.Controls.Add(this.label9);
+            this.tab_point.Controls.Add(this.tb_Step);
             this.tab_point.Controls.Add(this.tb_a_value);
             this.tab_point.Controls.Add(this.tb_z_value);
             this.tab_point.Controls.Add(this.tb_y_value);
@@ -294,10 +298,28 @@
             this.tab_point.Name = "tab_point";
             this.tab_point.Size = new System.Drawing.Size(952, 397);
             this.tab_point.TabIndex = 1;
-            this.tab_point.Text = "Teacher";
+            this.tab_point.Text = "Point Data";
             this.tab_point.VerticalScrollbarBarColor = true;
             this.tab_point.VerticalScrollbarHighlightOnWheel = false;
             this.tab_point.VerticalScrollbarSize = 20;
+            // 
+            // label9
+            // 
+            this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(773, 252);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(38, 16);
+            this.label9.TabIndex = 28;
+            this.label9.Text = "STEP:";
+            // 
+            // tb_Step
+            // 
+            this.tb_Step.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.tb_Step.Location = new System.Drawing.Point(826, 249);
+            this.tb_Step.Name = "tb_Step";
+            this.tb_Step.Size = new System.Drawing.Size(93, 24);
+            this.tb_Step.TabIndex = 27;
             // 
             // tb_a_value
             // 
@@ -403,11 +425,11 @@
             // 
             this.lb_notification.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lb_notification.AutoSize = true;
-            this.lb_notification.Location = new System.Drawing.Point(570, 381);
+            this.lb_notification.Location = new System.Drawing.Point(532, 381);
             this.lb_notification.Name = "lb_notification";
-            this.lb_notification.Size = new System.Drawing.Size(341, 16);
+            this.lb_notification.Size = new System.Drawing.Size(422, 16);
             this.lb_notification.TabIndex = 19;
-            this.lb_notification.Text = "If you don\'t have speed input then speed default is f=500";
+            this.lb_notification.Text = "If you don\'t have speed input then speed default is f=500 and step s=1";
             // 
             // tb_speed
             // 
@@ -484,7 +506,7 @@
             this.btn_savedata.Name = "btn_savedata";
             this.btn_savedata.Size = new System.Drawing.Size(150, 40);
             this.btn_savedata.TabIndex = 16;
-            this.btn_savedata.Text = "Save data";
+            this.btn_savedata.Text = "Add Data";
             this.btn_savedata.TextColor = System.Drawing.Color.White;
             this.btn_savedata.UseVisualStyleBackColor = false;
             this.btn_savedata.Click += new System.EventHandler(this.btn_savedata_Click);
@@ -571,7 +593,7 @@
             this.z_value.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(228)))), ((int)(((byte)(231)))), ((int)(((byte)(237)))));
             this.z_value.LineWidth = 10F;
             this.z_value.Location = new System.Drawing.Point(567, 160);
-            this.z_value.MaxValue = 18000F;
+            this.z_value.MaxValue = 19000F;
             this.z_value.MinValue = 2000F;
             this.z_value.Name = "z_value";
             this.z_value.Size = new System.Drawing.Size(352, 28);
@@ -780,6 +802,8 @@
         private System.Windows.Forms.TextBox tb_y_value;
         private System.Windows.Forms.TextBox tb_x_value;
         private System.Windows.Forms.TextBox tb_a_value;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.TextBox tb_Step;
     }
 }
 
